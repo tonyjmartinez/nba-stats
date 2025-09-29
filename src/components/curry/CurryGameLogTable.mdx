@@ -1,0 +1,57 @@
+import { For } from "solid-js";
+
+export default function CurryGameLogTable(props) {
+  return (
+    <section class="table-card">
+      <header>
+        <h2>Game log details</h2>
+        <p>Every contest is hand-picked from official box scores and sorted chronologically.</p>
+      </header>
+      <div class="table-wrapper">
+        <table class="game-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Opponent</th>
+              <th>Pts</th>
+              <th>Reb</th>
+              <th>Ast</th>
+              <th>Stl</th>
+              <th>3PM</th>
+              <th>FGM</th>
+              <th>FTM</th>
+              <th>Game Score</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <For each={props.games}>
+              {game => (
+                <tr>
+                  <td>
+                    <span class="date-cell">{props.formatDate(game.date)}</span>
+                  </td>
+                  <td>
+                    <span class="opponent">
+                      {props.locationBadge(game.location)} {game.opponent}
+                    </span>
+                    <span class="competition">{game.competition}</span>
+                  </td>
+                  <td>{game.points}</td>
+                  <td>{game.rebounds}</td>
+                  <td>{game.assists}</td>
+                  <td>{game.steals}</td>
+                  <td>{game.threesMade}</td>
+                  <td>{game.fieldGoalsMade}</td>
+                  <td>{game.freeThrowsMade}</td>
+                  <td>{game.gameScore.toFixed(1)}</td>
+                  <td>{game.result}</td>
+                </tr>
+              )}
+            </For>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
