@@ -3,7 +3,7 @@ import OctoberHero from "~/components/october/OctoberHero.mdx";
 import OctoberGamesList from "~/components/october/OctoberGamesList.mdx";
 import OctoberEmptyState from "~/components/october/OctoberEmptyState.mdx";
 
-const SCHEDULE_ENDPOINT = "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2.json";
+const SCHEDULE_ENDPOINT = "/api/october-schedule";
 const TARGET_DATE_KEY = "10/02/2025 00:00:00";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
