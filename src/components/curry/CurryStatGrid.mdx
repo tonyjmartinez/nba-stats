@@ -1,0 +1,30 @@
+export default function CurryStatGrid(props) {
+  return (
+    <section class="stat-grid">
+      <article class="stat-card">
+        <h3>Total points</h3>
+        <p class="stat-value">{props.totals.points}</p>
+        <p class="stat-subtitle">Across {props.count} legendary nights</p>
+      </article>
+      <article class="stat-card">
+        <h3>Average slash</h3>
+        <p class="stat-value">
+          {props.averages.points.toFixed(1)} pts · {props.averages.rebounds.toFixed(1)} reb · {props.averages.assists.toFixed(1)} ast
+        </p>
+        <p class="stat-subtitle">Game Score {props.averages.gameScore.toFixed(1)} per game</p>
+      </article>
+      <article class="stat-card">
+        <h3>Peak Game Score</h3>
+        <p class="stat-value">{props.bestGameScoreNight.gameScore.toFixed(1)}</p>
+        <p class="stat-subtitle">
+          {props.formatDate(props.bestGameScoreNight.date)} ({props.bestGameScoreNight.result})
+        </p>
+      </article>
+      <article class="stat-card">
+        <h3>Most threes</h3>
+        <p class="stat-value">{props.recordThreesNight.threesMade}</p>
+        <p class="stat-subtitle">{props.formatDate(props.recordThreesNight.date)}</p>
+      </article>
+    </section>
+  );
+}

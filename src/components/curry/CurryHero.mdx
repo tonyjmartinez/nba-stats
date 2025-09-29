@@ -1,0 +1,43 @@
+import { A } from "@solidjs/router";
+
+export default function CurryHero(props) {
+  return (
+    <header class="dashboard-hero">
+      <div>
+        <p class="eyebrow">Steph Showcase</p>
+        <h1>Stephen Curry&apos;s most volcanic box scores</h1>
+        <p class="lead">
+          A curated look at ten of the greatest single-game explosions from the greatest shooter ever.
+          Track how his volume, efficiency, and all-around control of the game shift from the regular
+          season to the playoffs and the NBA Finals.
+        </p>
+        <div class="hero-links">
+          <A
+            class="cta"
+            href="https://www.basketball-reference.com/players/c/curryst01/gamelog/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Full game logs
+          </A>
+          <A
+            class="cta secondary"
+            href="https://www.nba.com/player/201939/stephen-curry"
+            target="_blank"
+            rel="noreferrer"
+          >
+            NBA.com profile
+          </A>
+        </div>
+      </div>
+      <aside class="hero-highlight">
+        <h2>{props.highlight.points}-point masterpiece</h2>
+        <p>
+          {props.formatDate(props.highlight.date)} vs {props.highlight.opponent}
+        </p>
+        <p class="result-tag">{props.highlight.result}</p>
+        <p class="note">{props.highlight.note}</p>
+      </aside>
+    </header>
+  );
+}

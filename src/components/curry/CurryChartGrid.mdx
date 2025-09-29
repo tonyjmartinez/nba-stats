@@ -1,0 +1,20 @@
+import { Bar, Line, Radar, Scatter } from "solid-chartjs";
+
+export default function CurryChartGrid(props) {
+  return (
+    <section class="chart-grid">
+      <figure class="chart-card">
+        <Line data={props.pointsTrendData} options={props.pointsTrendOptions} />
+      </figure>
+      <figure class="chart-card">
+        <Bar data={props.scoringDistributionData} options={props.barOptions} />
+      </figure>
+      <figure class="chart-card">
+        <Radar data={props.radarComparisonData} options={props.radarOptions} />
+      </figure>
+      <figure class="chart-card">
+        <Scatter data={props.efficiencyScatterData} options={props.scatterOptions} />
+      </figure>
+    </section>
+  );
+}
