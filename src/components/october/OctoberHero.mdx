@@ -1,0 +1,39 @@
+export default function OctoberHero(props) {
+  const game = props.game;
+
+  return (
+    <header class="dashboard-hero october-hero">
+      <div>
+        <p class="eyebrow">Global Games Spotlight</p>
+        <h1>
+          {game.awayTeam.city} {game.awayTeam.name} vs. {game.homeTeam.city} {game.homeTeam.name}
+        </h1>
+        <p class="lead">
+          Tip-off heads overseas as the preseason begins under the Etihad Arena lights. Track the
+          travel, the broadcast plan, and every detail about this neutral-site clash before the
+          action gets underway.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">{game.label}</span>
+          {game.subLabel && <span class="pill">{game.subLabel}</span>}
+          {game.neutralSite && <span class="pill">Neutral site</span>}
+        </div>
+      </div>
+      <aside class="hero-highlight">
+        <h2>{game.tipoffText}</h2>
+        <p>{game.dateText}</p>
+        <p class="note">{game.location}</p>
+        <div class="hero-meta">
+          <p class="meta-label">Watch on</p>
+          <ul class="broadcast-list">
+            {game.broadcasters.length > 0 ? (
+              game.broadcasters.map((network) => <li>{network}</li>)
+            ) : (
+              <li>Broadcast details TBA</li>
+            )}
+          </ul>
+        </div>
+      </aside>
+    </header>
+  );
+}

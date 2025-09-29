@@ -15,6 +15,9 @@ export default function App() {
             </div>
             <nav class="main-nav">
               <A href="/" end activeClass="active">
+                October 2 Slate
+              </A>
+              <A href="/curry" activeClass="active">
                 Curry Showcase
               </A>
               <A href="/about" activeClass="active">

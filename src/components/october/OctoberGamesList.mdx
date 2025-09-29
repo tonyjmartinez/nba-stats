@@ -1,0 +1,68 @@
+export default function OctoberGamesList(props) {
+  const games = props.games ?? [];
+
+  return (
+    <section class="october-schedule">
+      <header class="section-heading">
+        <p class="eyebrow">Game slate</p>
+        <h2>Everything scheduled for October 2</h2>
+        <p class="lead">
+          From tip-off time to broadcast details, here&apos;s what to know before the ball goes up.
+        </p>
+      </header>
+      <div class="game-grid">
+        {games.map((game) => (
+          <article class="game-card">
+            <div class="matchup">
+              <div class="team away">
+                <span class="tricode">{game.awayTeam.tricode}</span>
+                <p class="team-name">
+                  {game.awayTeam.city} {game.awayTeam.name}
+                </p>
+              </div>
+              <span class="at">@</span>
+              <div class="team home">
+                <span class="tricode">{game.homeTeam.tricode}</span>
+                <p class="team-name">
+                  {game.homeTeam.city} {game.homeTeam.name}
+                </p>
+              </div>
+            </div>
+            <dl class="game-meta">
+              <div>
+                <dt>Tip-off</dt>
+                <dd>{game.tipoffText}</dd>
+              </div>
+              <div>
+                <dt>Date</dt>
+                <dd>{game.dateText}</dd>
+              </div>
+              <div>
+                <dt>Venue</dt>
+                <dd>{game.location}</dd>
+              </div>
+              <div>
+                <dt>Listing</dt>
+                <dd>{game.statusText}</dd>
+              </div>
+            </dl>
+            <div class="game-tags">
+              <span class="pill">{game.label}</span>
+              {game.subLabel && <span class="pill">{game.subLabel}</span>}
+            </div>
+            <div class="broadcast-strip">
+              <p>Watch on</p>
+              <ul>
+                {game.broadcasters.length > 0 ? (
+                  game.broadcasters.map((network) => <li>{network}</li>)
+                ) : (
+                  <li>Broadcast TBA</li>
+                )}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
