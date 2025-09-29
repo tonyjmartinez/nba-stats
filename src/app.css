@@ -39,3 +39,25 @@ p {
     max-width: none;
   }
 }
+
+.nba-games {
+  margin: 2.5rem auto;
+  max-width: 32rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.nba-games h2 {
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.nba-games p {
+  margin: 0;
+  text-align: center;
+}
+
+.nba-games .error {
+  color: #fecdd3;
+}
