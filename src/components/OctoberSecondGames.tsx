@@ -1,16 +1,23 @@
-import { Show, createMemo, createResource } from "solid-js";
+import { Show, createMemo, createResource, createSignal } from "solid-js";
 import OctoberHero from "~/components/october/OctoberHero.mdx";
 import OctoberGamesList from "~/components/october/OctoberGamesList.mdx";
 import OctoberEmptyState from "~/components/october/OctoberEmptyState.mdx";
 
 const SCHEDULE_ENDPOINT = "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2.json";
-const TARGET_DATE_KEY = "10/02/2025 00:00:00";
+const MIN_SELECTABLE_DATE = "2025-10-02";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
   year: "numeric",
   weekday: "long",
+  timeZone: "America/New_York",
+});
+
+const selectionFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
   timeZone: "America/New_York",
 });
 
@@ -152,42 +159,82 @@ function normalizeGame(game: ScheduleGame): OctoberGame {
   };
 }
 
-function findOctoberGames(data: ScheduleResponse) {
+function toDateKey(dateValue: string) {
+  const [year, month, day] = dateValue.split("-").map(segment => segment.padStart(2, "0"));
+  return `${month}/${day}/${year} 00:00:00`;
+}
+
+function toDateObject(dateValue: string) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+function findGamesForDate(data: ScheduleResponse, dateKey: string) {
   const gameDates = data.leagueSchedule?.gameDates ?? [];
-  const targetDate = gameDates.find(day => day.gameDate === TARGET_DATE_KEY);
+  const targetDate = gameDates.find(day => day.gameDate === dateKey);
   const games = targetDate?.games ?? [];
   return games.map(normalizeGame);
 }
 
 export default function OctoberSecondGames() {
+  const [selectedDate, setSelectedDate] = createSignal(MIN_SELECTABLE_DATE);
   const [schedule] = createResource(fetchOctoberSecondSchedule);
+
+  const selectedDateKey = createMemo(() => toDateKey(selectedDate()));
+  const selectedDateText = createMemo(() => selectionFormatter.format(toDateObject(selectedDate())));
 
   const games = createMemo(() => {
     const data = schedule();
-    return data ? findOctoberGames(data) : [];
+    return data ? findGamesForDate(data, selectedDateKey()) : [];
   });
 
   const headliner = createMemo(() => games()[0]);
 
   return (
     <section class="october-dashboard">
+      <div class="schedule-toolbar" role="group" aria-labelledby="schedule-date-label">
+        <div class="toolbar-copy">
+          <p class="eyebrow" id="schedule-date-label">Explore the fall slate</p>
+          <h2>See which teams play on {selectedDateText()}</h2>
+          <p class="lead">Pick any preseason date after October 2 to preview matchups, venues, and broadcast partners.</p>
+        </div>
+        <label class="date-picker" for="schedule-date">
+          <span>Choose a date</span>
+          <input
+            id="schedule-date"
+            type="date"
+            min={MIN_SELECTABLE_DATE}
+            value={selectedDate()}
+            onInput={(event) => {
+              const nextValue = event.currentTarget.value;
+              if (nextValue && nextValue >= MIN_SELECTABLE_DATE) {
+                setSelectedDate(nextValue);
+              }
+            }}
+          />
+        </label>
+      </div>
+
       <Show when={schedule.error}>
         {(error) => <p class="alert error">{error.message}</p>}
       </Show>
 
       <Show when={!schedule.error}>
         <Show when={schedule.loading} fallback={null}>
-          <div class="loading-panel">Loading the October 2 slate…</div>
+          <div class="loading-panel">Loading the {selectedDateText()} slate…</div>
         </Show>
 
         <Show when={!schedule.loading}>
-          <Show when={games().length > 0} fallback={<OctoberEmptyState />}> 
+          <Show
+            when={games().length > 0}
+            fallback={<OctoberEmptyState dateText={selectedDateText()} />}
+          >
             {headliner() && (
               <OctoberHero
                 game={headliner()!}
               />
             )}
-            <OctoberGamesList games={games()} />
+            <OctoberGamesList games={games()} dateText={selectedDateText()} />
           </Show>
         </Show>
       </Show>
