@@ -1,9 +1,11 @@
-export default function OctoberEmptyState() {
+export default function OctoberEmptyState(props) {
+  const dateLabel = props.dateLabel ?? "this date";
+
   return (
     <div class="empty-slate">
-      <h2>No NBA games on October 2</h2>
+      <h2>No NBA games on {dateLabel}</h2>
       <p>
-        The league hasn&apos;t scheduled any matchups for this date yet. Check back closer to the fall for
+        The league hasn&apos;t scheduled any matchups for this day yet. Check back closer to the fall for
         updated preseason and regular-season announcements.
       </p>
     </div>
